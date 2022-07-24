@@ -14,8 +14,12 @@ export const exampleRouter = createRouter()
       };
     },
   })
+  .middleware(async ({ ctx, next }) => {
+    console.log("this runs every call 🤌");
+    return next();
+  })
   .query("getAll", {
     async resolve({ ctx }) {
-      return await ctx.prisma.example.findMany();
+      return await ctx.prisma.user.findMany();
     },
   });
