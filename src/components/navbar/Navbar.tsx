@@ -1,4 +1,4 @@
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { Button } from "../button";
 
 export const Navbar = () => {
@@ -21,7 +21,7 @@ export const Navbar = () => {
           {status === "unauthenticated" ? (
             <Button onClick={() => signIn()}>Log in</Button>
           ) : (
-            <Button onClick={() => console.log("logout")}>Log out</Button>
+            <Button onClick={() => signOut()}>Log out</Button>
           )}
         </div>
       </div>
