@@ -13,9 +13,11 @@ const MyApp: AppType = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <Wrapper>
-        <Component {...pageProps} />
-      </Wrapper>
+      <div className="bg-gray-300">
+        <Wrapper>
+          <Component {...pageProps} />
+        </Wrapper>
+      </div>
     </SessionProvider>
   );
 };
