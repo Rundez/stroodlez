@@ -1,0 +1,1 @@
+export { DeckAlgo } from "./DeckAlgo";

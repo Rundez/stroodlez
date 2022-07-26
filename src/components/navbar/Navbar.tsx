@@ -5,7 +5,7 @@ export const Navbar = () => {
   const { data: session, status } = useSession();
 
   return (
-    <nav className="absolute w-full bg-gray-300 border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
+    <nav className="absolute w-full bg-gray-300 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
       <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
         <a href="#" className="flex items-center">
           <img
@@ -14,7 +14,7 @@ export const Navbar = () => {
             alt="Flowbite Logo"
           />
           <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-            Flowbite
+            Temp name
           </span>
         </a>
         <div className="flex items-center">

@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { signIn, useSession } from "next-auth/react";
 import { trpc } from "../utils/trpc";
+import { DeckAlgo } from "../components/deck-algo";
 
 type TechnologyCardProps = {
   name: string;
@@ -13,6 +14,11 @@ const Home: NextPage = () => {
   const { data } = trpc.useQuery(["example.hello", { text: "from tRPC" }]);
   const { data: session, status } = useSession();
 
+  const message =
+    status === "authenticated"
+      ? `Greetings ${session?.user?.name}`
+      : `Login to see your name`;
+
   return (
     <>
       <Head>
@@ -21,9 +27,12 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="container mx-auto flex flex-col items-center justify-center h-screen p-4">
-        TESTINGGGGGGGG
-      </main>
+      <div className="container mx-auto flex flex-col items-center h-screen p-4">
+        <div className="mt-[60px]">{message}</div>
+        <div className="mt-20">
+          <DeckAlgo />
+        </div>
+      </div>
     </>
   );
 };
