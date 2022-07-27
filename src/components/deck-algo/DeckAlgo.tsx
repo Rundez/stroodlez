@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../button";
 
-const size = 3;
+const size = 20;
 
 export const DeckAlgo = () => {
   const ref = useRef<number[]>();
@@ -9,18 +9,30 @@ export const DeckAlgo = () => {
   const [seconds, setSeconds] = useState(0);
   const [pause, setPause] = useState(true);
   const [sorted, setSorted] = useState(false);
+  const [tries, setTries] = useState(0);
+  const deckWorker = useRef<Worker>();
 
   useEffect(() => {
     ref.current = Array.from({ length: size }, (_, i) => i);
   }, []);
 
-  const start = async () => {
-    if (pause === false) return;
+  useEffect(() => {
+    deckWorker.current = new Worker("/worker.js");
+  }, []);
 
-    setPause(false);
-    while (!sorted) {
-      await shuffle();
-    }
+  const start = () => {
+    deckWorker?.current?.postMessage(ref.current);
+    (deckWorker.current as Worker).onmessage = (e) => {
+      if (e.data.finished) {
+        setSorted(true);
+        setTries(e.data.tries);
+        deckWorker?.current?.terminate();
+        clearInterval(intervalRef.current);
+        return;
+      } else {
+        setTries(e.data.tries);
+      }
+    };
 
     const interval = setInterval(() => {
       setSeconds((seconds) => seconds + 1);
@@ -35,16 +47,6 @@ export const DeckAlgo = () => {
     clearInterval(intervalRef.current);
   };
 
-  const shuffle = () => {
-    const shuffled = ref?.current?.slice().sort(() => Math.random() - 0.5);
-    if (shuffled?.toString() === ref?.current?.toString()) {
-      console.log("It's a match");
-      console.log("new shuffle", shuffled);
-      console.log("old shuffle", ref.current);
-      setPause(true);
-    }
-  };
-
   return (
     <div className="flex flex-col items-center gap-4">
       <h1>Deck Algo</h1>
@@ -56,6 +58,7 @@ export const DeckAlgo = () => {
 
       <div>{seconds}</div>
       <div>{sorted ? "Sorted" : "Not sorted"}</div>
+      <div>Tries: {tries}</div>
     </div>
   );
 };
