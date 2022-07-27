@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../button";
 
-const size = 20;
+const size = 22;
 
 export const DeckAlgo = () => {
   const ref = useRef<number[]>();
@@ -21,12 +21,13 @@ export const DeckAlgo = () => {
   }, []);
 
   const start = () => {
+    if (!pause) return;
     deckWorker?.current?.postMessage(ref.current);
     (deckWorker.current as Worker).onmessage = (e) => {
       if (e.data.finished) {
+        setPause(true);
         setSorted(true);
         setTries(e.data.tries);
-        deckWorker?.current?.terminate();
         clearInterval(intervalRef.current);
         return;
       } else {
@@ -56,8 +57,8 @@ export const DeckAlgo = () => {
         <Button onClick={stop}>Pause</Button>
       </div>
 
-      <div>{seconds}</div>
-      <div>{sorted ? "Sorted" : "Not sorted"}</div>
+      <div>{seconds} seconds</div>
+      <div>{sorted ? "Sorted" : "Sorting..."}</div>
       <div>Tries: {tries}</div>
     </div>
   );

@@ -7,7 +7,7 @@ self.onmessage = (e) => {
         const shuffledDeck = shuffle(originalDeck);
         isSame = shuffledDeck.toString() === originalDeck.toString();
         index++;
-        if(index % 1000 === 0) {
+        if(index % 100000 === 0) {
             postMessage({finished: false, tries: index})
         }
     }
