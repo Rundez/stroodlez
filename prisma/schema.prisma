@@ -43,13 +43,14 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String        @id @default(cuid())
     name          String?
-    email         String?   @unique
+    email         String?       @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
+    Leaderboard   Leaderboard[]
 }
 
 model VerificationToken {
@@ -58,4 +59,12 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Leaderboard {
+    id      String @id @default(cuid())
+    userId  String
+    tries   Int
+    seconds Int
+    user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

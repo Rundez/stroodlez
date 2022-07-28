@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../button";
 
-const size = 20;
+const size = 5;
 
 export const DeckAlgo = () => {
   const ref = useRef<number[]>();
@@ -48,6 +48,8 @@ export const DeckAlgo = () => {
     clearInterval(intervalRef.current);
   };
 
+  const submit = () => {};
+
   return (
     <div className="flex flex-col items-center gap-4">
       <h1>Deck Algo</h1>
@@ -60,6 +62,9 @@ export const DeckAlgo = () => {
       <div>{seconds} seconds</div>
       <div>{sorted ? "Sorted" : pause ? "Paused" : "Shuffling"}</div>
       <div>Tries: {tries}</div>
+      <div>
+        {sorted && <Button onClick={() => submit()}>Submit score</Button>}
+      </div>
     </div>
   );
 };

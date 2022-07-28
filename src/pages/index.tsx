@@ -4,16 +4,12 @@ import { signIn, useSession } from "next-auth/react";
 import { trpc } from "../utils/trpc";
 import { DeckAlgo } from "../components/deck-algo";
 
-type TechnologyCardProps = {
-  name: string;
-  description: string;
-  documentation: string;
-};
-
 const Home: NextPage = () => {
   const { data } = trpc.useQuery(["example.hello", { text: "from tRPC" }]);
   const { data: session, status } = useSession();
+  const { data: leaderbord } = trpc.useQuery(["leaderboard.getLeaderboard"]);
 
+  console.log(leaderbord);
   const message =
     status === "authenticated"
       ? `Greetings ${session?.user?.name}`
