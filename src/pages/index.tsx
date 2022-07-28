@@ -5,11 +5,9 @@ import { trpc } from "../utils/trpc";
 import { DeckAlgo } from "../components/deck-algo";
 
 const Home: NextPage = () => {
-  const { data } = trpc.useQuery(["example.hello", { text: "from tRPC" }]);
   const { data: session, status } = useSession();
   const { data: leaderbord } = trpc.useQuery(["leaderboard.getLeaderboard"]);
 
-  console.log(leaderbord);
   const message =
     status === "authenticated"
       ? `Greetings ${session?.user?.name}`
