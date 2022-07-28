@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../button";
 
-const size = 22;
+const size = 20;
 
 export const DeckAlgo = () => {
   const ref = useRef<number[]>();
@@ -58,7 +58,7 @@ export const DeckAlgo = () => {
       </div>
 
       <div>{seconds} seconds</div>
-      <div>{sorted ? "Sorted" : "Sorting..."}</div>
+      <div>{sorted ? "Sorted" : pause ? "Paused" : "Shuffling"}</div>
       <div>Tries: {tries}</div>
     </div>
   );

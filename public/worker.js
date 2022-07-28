@@ -3,12 +3,15 @@ self.onmessage = (e) => {
     let isSame = false;
     let index = 0
 
+    let shuffledDecks = [];
     while(!isSame) {
         const shuffledDeck = shuffle(originalDeck);
-        isSame = shuffledDeck.toString() === originalDeck.toString();
+        
+        isSame = compare(shuffledDecks, shuffledDeck);
+        shuffledDecks.push(shuffledDeck);
         index++;
-        if(index % 100000 === 0) {
-            postMessage({finished: false, tries: index})
+        if(index % 100 === 0) {
+            postMessage({finished: false, tries: index, lastShuffledDeck: shuffledDeck});
         }
     }
 
@@ -18,4 +21,8 @@ self.onmessage = (e) => {
 const shuffle = (deck) => {
     const shuffled = deck.slice().sort(() => Math.random() - 0.5);
     return shuffled;
+}
+
+const compare = (decks, shuffledDeck) => {
+    return decks.some(deck => deck.toString() === shuffledDeck.toString());
 }
